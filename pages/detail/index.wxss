@@ -13,9 +13,20 @@
 
 .prev {
   text-decoration: underline;
+  width: 239rpx;
+  float: left;
 }
 
 .next {
   float: right;
   text-decoration: underline;
+  width: 238rpx;
+  text-align: right;
+}
+
+.pwd {
+  text-decoration: underline;
+  width: 239rpx;
+  float: left;
+  text-align: center;
 }

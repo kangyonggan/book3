@@ -15,11 +15,22 @@ Page({
   },
 
   detail: function (e) {
-    let novelCode = e.currentTarget.dataset.code;
+    let novelCode = e.currentTarget.dataset.code + '';
     let name = e.currentTarget.dataset.name;
-    wx.navigateTo({
-      url: '../sections/index?novelCode=' + novelCode + "&name=" + name
-    })
+    var that = this;
+    wx.getStorage({
+      key: novelCode,
+      success: function (res) {
+        wx.navigateTo({
+          url: '../detail/index?novelCode=' + novelCode + '&sectionCode=' + res.data.sectionCode + "&name=" + name
+        })
+      },
+      fail: function () {
+        wx.navigateTo({
+          url: '../sections/index?novelCode=' + novelCode + "&name=" + name
+        })
+      }
+    });
   },
 
   /**

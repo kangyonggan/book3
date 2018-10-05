@@ -8,6 +8,7 @@ Page({
    */
   data: {
     novelCode: '',
+    name: '',
     apiUrl: app.apiUrl,
     isLoading: false,
     emptyText: "加载中...",
@@ -19,7 +20,7 @@ Page({
     let sectionCode = e.currentTarget.dataset.code;
     let title = e.currentTarget.dataset.title;
     wx.navigateTo({
-      url: '../detail/index?sectionCode=' + sectionCode + "&title=" + title
+      url: '../detail/index?novelCode=' + this.data.novelCode + '&sectionCode=' + sectionCode + "&title=" + title + '&name=' + this.data.name
     })
   },
 
@@ -28,7 +29,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      novelCode: options.novelCode
+      novelCode: options.novelCode,
+      name: options.name
     });
 
     wx.setNavigationBarTitle({
@@ -44,7 +46,7 @@ Page({
   /**
    * 加载数据
    */
-  loadData: function (direct) {
+  loadData: function (isInit) {
     let that = this;
     if (that.data.isLoading) {
       return;
@@ -55,18 +57,13 @@ Page({
       isLoading: true,
       emptyText: '加载中...'
     });
-    if (direct) {
+    if (isInit) {
       that.setData({
-        pageNum: that.data.pageNum - 1
+        pageNum: 1
       });
     } else {
       that.setData({
         pageNum: that.data.pageNum + 1
-      });
-    }
-    if (that.data.pageNum == 0) {
-      that.setData({
-        pageNum: 1
       });
     }
     wx.request({
@@ -82,21 +79,21 @@ Page({
             that.setData({
               isLoading: false
             });
-            that.setData({
-              emptyText: '没有更多章节了'
-            });
-            app.message("没有更多章节了");
-            if (!direct) {
+            if (isInit) {
               that.setData({
-                pageNum: that.data.pageNum - 1
+                emptyText: '暂时没有可以阅读的章节'
               });
+            } else {
+              app.message("没有更多章节了");
             }
             return;
           }
 
-          that.setData({
-            list: []
-          });
+          if (isInit) {
+            that.setData({
+              list: []
+            });
+          }
 
           that.setData({
             isLoading: false,

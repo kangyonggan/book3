@@ -8,6 +8,8 @@ Page({
    * Page initial data
    */
   data: {
+    novelCode: '',
+    name: '',
     sectionCode: '',
     isLoading: false,
     prev: {},
@@ -73,17 +75,21 @@ Page({
     this.loadData(this.data.next.code);
   },
 
+  pwd: function () {
+    wx.navigateTo({
+      url: '../sections/index?novelCode=' + this.data.novelCode + "&name=" + this.data.name
+    })
+  },
+
   /**
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
     this.setData({
-      sectionCode: options.sectionCode
+      novelCode: options.novelCode,
+      sectionCode: options.sectionCode,
+      name: options.name
     });
-
-    wx.setNavigationBarTitle({
-      title: options.title
-    })
 
     this.loadData(this.data.sectionCode);
   },
@@ -102,6 +108,14 @@ Page({
       isLoading: true,
       emptyText: '加载中...'
     });
+
+    wx.setStorage({
+      key: that.data.novelCode,
+      data: {
+        sectionCode: sectionCode
+      }
+    })
+
     wx.request({
       method: "GET",
       url: app.apiUrl + "/book/section/" + sectionCode,
@@ -110,7 +124,6 @@ Page({
         wx.hideNavigationBarLoading();
         // 停止下拉动作
         wx.stopPullDownRefresh();
-        console.log(res);
         if (res.data.respCo == '0000') {
           if (!res.data.section) {
             that.setData({
