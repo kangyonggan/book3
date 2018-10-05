@@ -1,0 +1,16 @@
+<!--pages/index/index.wxml-->
+<view wx:if="{{list.length > 0}}">
+  <view bindtap="detail" data-code="{{novel.code}}" data-name="{{novel.name}}" class="novel" wx:for="{{list}}" wx:for-item="novel" wx:key="index">
+    <image class='cover' src='{{apiUrl}}/{{novel.picUrl}}'></image>
+    <view class="top">
+      <text>{{novel.name}}</text>
+      <text class="author">{{novel.author}}</text>
+    </view>
+    <view class="bottom">
+    {{novel.descp}}
+    </view>
+  </view>
+</view>
+<view wx:else class="error">
+  {{emptyText}}
+</view>

@@ -1,0 +1,21 @@
+/* pages/detail/index.wxss */
+@import "/wxParse/wxParse.wxss";
+
+.content {
+  padding: 20rpx;
+  font-size: 20px;
+}
+
+.toolbar {
+  margin-top: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.prev {
+  text-decoration: underline;
+}
+
+.next {
+  float: right;
+  text-decoration: underline;
+}

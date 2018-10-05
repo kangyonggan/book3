@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/sections/index",
+    "pages/detail/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "black",
+    "navigationBarBackgroundColor": "#555",
+    "navigationBarTitleText": "膻味书屋",
+    "navigationBarTextStyle": "white"
+  }
+}

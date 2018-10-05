@@ -1,0 +1,7 @@
+/* pages/sections/index.wxss */
+.section {
+  height: 70rpx;
+  line-height: 70rpx;
+  text-indent: 30rpx;
+  border-bottom: 1px solid #d5d5d5;
+}

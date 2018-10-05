@@ -1,0 +1,11 @@
+/**app.wxss**/
+page {
+  background: #555;
+  color: #d5d5d5;
+}
+
+.error {
+  color: #ccc;
+  text-align: center;
+  margin-top: 100rpx;
+}
