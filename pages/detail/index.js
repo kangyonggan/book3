@@ -8,12 +8,12 @@ Page({
    * Page initial data
    */
   data: {
-    novelCode: '',
-    name: '',
-    sectionCode: '',
+    novelId: '',
+    sectionId: '',
     isLoading: false,
-    prev: {},
-    next: {},
+    section: {},
+    prevSection: {},
+    nextSection: {},
     emptyText: '加载中...',
     hasContent: false
   },
@@ -31,7 +31,7 @@ Page({
     });
     wx.request({
       method: "GET",
-      url: app.apiUrl + "/book/refresh/" + that.data.sectionCode,
+      url: app.apiUrl + "/api/novel/" + that.data.section.novelId + "/pull/",
       success: function (res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
@@ -41,9 +41,9 @@ Page({
           that.setData({
             hasContent: true,
             isLoading: false,
-            emptyText: '后台拉取中，请稍后查看'
+            emptyText: '已经加入更新队列，请稍后下拉刷新查询最新章节'
           });
-          app.message("后台拉取中，请稍后查看");
+          app.message("已经加入更新队列，请稍后下拉刷新查询最新章节");
         } else {
           that.setData({
             hasContent: true,
@@ -67,17 +67,17 @@ Page({
     })
   },
 
-  prev: function () {
-    this.loadData(this.data.prev.code);
+  prevSection: function () {
+    this.loadData(this.data.prevSection.sectionId);
   },
 
-  next: function () {
-    this.loadData(this.data.next.code);
+  nextSection: function () {
+    this.loadData(this.data.nextSection.sectionId);
   },
 
   pwd: function () {
     wx.navigateTo({
-      url: '../sections/index?novelCode=' + this.data.novelCode + "&name=" + this.data.name
+      url: '../sections/index?novelId=' + this.data.section.novelId
     })
   },
 
@@ -86,18 +86,17 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      novelCode: options.novelCode,
-      sectionCode: options.sectionCode,
-      name: options.name
+      sectionId: options.sectionId,
+      novelId: options.novelId
     });
 
-    this.loadData(this.data.sectionCode);
+    this.loadData(this.data.sectionId);
   },
 
   /**
    * 加载数据
    */
-  loadData: function (sectionCode) {
+  loadData: function (sectionId) {
     let that = this;
     if (that.data.isLoading) {
       return;
@@ -110,36 +109,28 @@ Page({
     });
 
     wx.setStorage({
-      key: that.data.novelCode,
+      key: that.data.novelId,
       data: {
-        sectionCode: sectionCode
+        sectionId: sectionId
       }
     })
 
     wx.request({
       method: "GET",
-      url: app.apiUrl + "/book/section/" + sectionCode,
+      url: app.apiUrl + "/api/novel/section/" + sectionId,
       success: function (res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
         // 停止下拉动作
         wx.stopPullDownRefresh();
         if (res.data.respCo == '0000') {
-          if (!res.data.section) {
-            that.setData({
-              hasContent: false,
-              emptyText: '不存在的章节',
-              isLoading: false
-            });
-            return;
-          }
-
           that.setData({
             isLoading: false,
             hasContent: true,
-            sectionCode: res.data.section.code,
-            prev: res.data.prevSection,
-            next: res.data.nextSection
+            sectionId: res.data.section.sectionId,
+            section: res.data.section,
+            prevSection: res.data.prevSection,
+            nextSection: res.data.nextSection
           });
 
           wx.pageScrollTo({
@@ -207,7 +198,7 @@ Page({
    * Page event handler function--Called when user drop down
    */
   onPullDownRefresh: function () {
-
+    this.loadData(this.data.section.sectionId);
   },
 
   /**

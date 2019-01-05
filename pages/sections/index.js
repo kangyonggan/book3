@@ -7,8 +7,7 @@ Page({
    * Page initial data
    */
   data: {
-    novelCode: '',
-    name: '',
+    novelId: '',
     apiUrl: app.apiUrl,
     isLoading: false,
     emptyText: "加载中...",
@@ -17,10 +16,9 @@ Page({
   },
 
   detail: function (e) {
-    let sectionCode = e.currentTarget.dataset.code;
-    let title = e.currentTarget.dataset.title;
+    let sectionId = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: '../detail/index?novelCode=' + this.data.novelCode + '&sectionCode=' + sectionCode + "&title=" + title + '&name=' + this.data.name
+      url: '../detail/index?novelId=' + this.data.novelId + '&sectionId=' + sectionId
     })
   },
 
@@ -29,13 +27,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      novelCode: options.novelCode,
-      name: options.name
+      novelId: options.novelId
     });
-
-    wx.setNavigationBarTitle({
-      title: options.name
-    })
 
     // 显示顶部刷新图标
     wx.showNavigationBarLoading();
@@ -68,7 +61,7 @@ Page({
     }
     wx.request({
       method: "GET",
-      url: app.apiUrl + "/book/sections?novelCode=" + that.data.novelCode + "&pageNum=" + that.data.pageNum,
+      url: app.apiUrl + "/api/novel/" + that.data.novelId + "?pageNum=" + that.data.pageNum,
       success: function (res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
@@ -99,6 +92,10 @@ Page({
             isLoading: false,
             list: that.data.list.concat(res.data.pageInfo.list)
           });
+
+          wx.setNavigationBarTitle({
+            title: res.data.novelName
+          })
         } else {
           that.setData({
             isLoading: false,

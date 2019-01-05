@@ -1,6 +1,6 @@
 <!--pages/sections/index.wxml-->
 <view wx:if="{{list.length > 0}}">
-  <view bindtap="detail" data-code="{{section.code}}" data-title="{{section.title}}" class="section" wx:for="{{list}}" wx:for-item="section" wx:key="index">
+  <view bindtap="detail" data-id="{{section.sectionId}}" class="section" wx:for="{{list}}" wx:for-item="section" wx:key="index">
     {{section.title}}
   </view>
 </view>

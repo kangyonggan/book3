@@ -1,16 +1,29 @@
 <!--pages/index/index.wxml-->
-<view wx:if="{{list.length > 0}}">
-  <view bindtap="detail" data-code="{{novel.code}}" data-name="{{novel.name}}" class="novel" wx:for="{{list}}" wx:for-item="novel" wx:key="index">
-    <image class='cover' src='{{apiUrl}}/{{novel.picUrl}}'></image>
-    <view class="top">
-      <text>{{novel.name}}</text>
-      <text class="author">{{novel.author}}</text>
-    </view>
-    <view class="bottom">
-    {{novel.descp}}
-    </view>
+<view wx:if="{{debug}}">
+  <view class="debug">
+    <view>康永敢一直努力的向全栈看齐，多年的实战经验可轻松的为中小企业提供系统级解决方案。</view>
+    <view>比如：后管系统、充值系统、门户网站、公共号、小程序等，并长期提供有保障的维护及售后。</view>
+
+    <view>微信：Brave_Kang</view>
+    <view>QQ：316071722</view>
+    <view>手机：18516690317</view>
+    <view>邮箱：java@kangyonggan.com</view>
   </view>
 </view>
-<view wx:else class="error">
-  {{emptyText}}
+<view wx:else>
+  <view wx:if="{{list.length > 0}}">
+    <view bindtap="detail" data-id="{{novel.novelId}}" data-name="{{novel.name}}" class="novel" wx:for="{{list}}" wx:for-item="novel" wx:key="index">
+      <image class='cover' src='{{apiUrl}}/{{novel.cover}}'></image>
+      <view class="top">
+        <text>{{novel.name}}</text>
+        <text class="author">{{novel.author}}</text>
+      </view>
+      <view class="bottom">
+      {{novel.summary}}
+      </view>
+    </view>
+  </view>
+  <view wx:else class="error">
+    {{emptyText}}
+  </view>
 </view>

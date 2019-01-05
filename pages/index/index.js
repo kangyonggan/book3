@@ -10,24 +10,26 @@ Page({
     apiUrl: app.apiUrl,
     isLoading: false,
     emptyText: "加载中...",
-    pageNum: 1,
-    list: []
+    list: [],
+    debug: true
   },
 
+  /**
+   * 章节列表/详情
+   */
   detail: function (e) {
-    let novelCode = e.currentTarget.dataset.code + '';
-    let name = e.currentTarget.dataset.name;
+    let novelId = e.currentTarget.dataset.id + '';
     var that = this;
     wx.getStorage({
-      key: novelCode,
+      key: novelId,
       success: function (res) {
         wx.navigateTo({
-          url: '../detail/index?novelCode=' + novelCode + '&sectionCode=' + res.data.sectionCode + "&name=" + name
+          url: '../detail/index?novelId=' + novelId + '&sectionId=' + res.data.sectionId
         })
       },
       fail: function () {
         wx.navigateTo({
-          url: '../sections/index?novelCode=' + novelCode + "&name=" + name
+          url: '../sections/index?novelId=' + novelId
         })
       }
     });
@@ -37,13 +39,13 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
-    this.loadData(true);
+    this.loadData();
   },
 
   /**
    * 加载数据
    */
-  loadData: function (isInit) {
+  loadData: function () {
     let that = this;
     if (that.data.isLoading) {
       return;
@@ -54,47 +56,33 @@ Page({
       isLoading: true,
       emptyText: '加载中...'
     });
-    if (isInit) {
-      that.setData({
-        pageNum: 1,
-      });
-    } else {
-      that.setData({
-        pageNum: that.data.pageNum + 1,
-      });
-    }
     wx.request({
       method: "GET",
-      url: app.apiUrl + "/book/list?&pageNum=" + that.data.pageNum,
+      url: app.apiUrl + "/api/novel",
       success: function (res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
         // 停止下拉动作
         wx.stopPullDownRefresh();
         if (res.data.respCo == '0000') {
-          if (res.data.pageInfo.list.length == 0) {
+          if (res.data.novels.length == 0) {
             that.setData({
               isLoading: false
             });
-            if (isInit) {
-              that.setData({
-                emptyText: '暂时没有可以阅读的书籍'
-              });
-            } else {
-              app.message("没有更加书籍了");
-            }
+            that.setData({
+              emptyText: '暂时没有可以阅读的书籍'
+            });
             return;
           }
 
-          if (isInit) {
-            that.setData({
-              list: []
-            });
-          }
+          that.setData({
+            list: []
+          });
 
           that.setData({
             isLoading: false,
-            list: that.data.list.concat(res.data.pageInfo.list)
+            debug: res.data.debug,
+            list: that.data.list.concat(res.data.novels)
           });
         } else {
           that.setData({
@@ -148,14 +136,13 @@ Page({
    * Page event handler function--Called when user drop down
    */
   onPullDownRefresh: function () {
-    this.onLoad(true);
+    this.onLoad();
   },
 
   /**
    * Called when page reach bottom
    */
   onReachBottom: function () {
-    this.loadData(false);
   },
 
   /**
