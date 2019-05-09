@@ -127,10 +127,10 @@ Page({
           that.setData({
             isLoading: false,
             hasContent: true,
-            sectionId: res.data.section.sectionId,
-            section: res.data.section,
-            prevSection: res.data.prevSection,
-            nextSection: res.data.nextSection
+            sectionId: res.data.data.section.sectionId,
+            section: res.data.data.section,
+            prevSection: res.data.data.prevSection,
+            nextSection: res.data.data.nextSection
           });
 
           wx.pageScrollTo({
@@ -138,11 +138,11 @@ Page({
             duration: 200,
           })
 
-          let content = res.data.section.content;
+          let content = res.data.data.section.content;
           WxParse.wxParse('content', 'html', content, that, 0);
 
           wx.setNavigationBarTitle({
-            title: res.data.section.title
+            title: res.data.data.section.title
           })
         } else {
           that.setData({

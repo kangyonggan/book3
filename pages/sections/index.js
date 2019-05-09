@@ -68,7 +68,7 @@ Page({
         // 停止下拉动作
         wx.stopPullDownRefresh();
         if (res.data.respCo == '0000') {
-          if (res.data.pageInfo.list.length == 0) {
+          if (res.data.data.pageInfo.list.length == 0) {
             that.setData({
               isLoading: false
             });
@@ -90,11 +90,11 @@ Page({
 
           that.setData({
             isLoading: false,
-            list: that.data.list.concat(res.data.pageInfo.list)
+            list: that.data.list.concat(res.data.data.pageInfo.list)
           });
 
           wx.setNavigationBarTitle({
-            title: res.data.novelName
+            title: res.data.data.novelName
           })
         } else {
           that.setData({

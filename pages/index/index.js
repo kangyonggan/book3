@@ -11,7 +11,7 @@ Page({
     isLoading: false,
     emptyText: "加载中...",
     list: [],
-    debug: true
+    debug: false
   },
 
   /**
@@ -64,8 +64,9 @@ Page({
         wx.hideNavigationBarLoading();
         // 停止下拉动作
         wx.stopPullDownRefresh();
+
         if (res.data.respCo == '0000') {
-          if (res.data.novels.length == 0) {
+          if (res.data.data.novels.length == 0) {
             that.setData({
               isLoading: false
             });
@@ -81,8 +82,8 @@ Page({
 
           that.setData({
             isLoading: false,
-            debug: res.data.debug,
-            list: that.data.list.concat(res.data.novels)
+            debug: false,
+            list: that.data.list.concat(res.data.data.novels)
           });
         } else {
           that.setData({
