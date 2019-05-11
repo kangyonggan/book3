@@ -17,7 +17,7 @@
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
-	"isGameTourist": false, 
+	"isGameTourist": false,
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
