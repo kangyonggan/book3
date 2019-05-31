@@ -11,6 +11,11 @@
   margin-bottom: 30rpx;
 }
 
+.title {
+  text-align: center;
+  line-height: 45px;
+}
+
 .prev {
   text-decoration: underline;
   width: 236rpx;

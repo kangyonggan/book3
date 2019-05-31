@@ -6,6 +6,7 @@
   <view bindtap="nextSection" class='next' wx:if="{{nextSection.code}}">下一章</view>
   <view bindtap="refresh" class='next' wx:if="{{!nextSection.code}}">拉取最新</view>
 </view>
+<view class='title'>{{section.title}}</view>
 <import src="../../wxParse/wxParse.wxml"/>
 <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
 <view>
