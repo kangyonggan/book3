@@ -61,7 +61,7 @@ Page({
     }
     wx.request({
       method: "GET",
-      url: app.apiUrl + "/api/novel/" + that.data.novelId + "?pageNum=" + that.data.pageNum,
+      url: app.apiUrl + "/novel/" + that.data.novelId + "/sections?pageSize=30&pageNum=" + that.data.pageNum,
       success: function (res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
@@ -94,7 +94,7 @@ Page({
           });
 
           wx.setNavigationBarTitle({
-            title: res.data.data.novelName
+            title: res.data.data.novel.name
           })
         } else {
           that.setData({

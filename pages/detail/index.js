@@ -30,8 +30,8 @@ Page({
       emptyText: '加载中...'
     });
     wx.request({
-      method: "GET",
-      url: app.apiUrl + "/api/novel/" + that.data.section.novelId + "/pull/",
+      method: "PUT",
+      url: app.apiUrl + "/novel/" + that.data.section.novelId + "/pull",
       success: function (res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
@@ -68,11 +68,11 @@ Page({
   },
 
   prevSection: function () {
-    this.loadData(this.data.prevSection.sectionId);
+    this.loadData(this.data.prevSection.id);
   },
 
   nextSection: function () {
-    this.loadData(this.data.nextSection.sectionId);
+    this.loadData(this.data.nextSection.id);
   },
 
   pwd: function () {
@@ -108,16 +108,9 @@ Page({
       emptyText: '加载中...'
     });
 
-    wx.setStorage({
-      key: that.data.novelId,
-      data: {
-        sectionId: sectionId
-      }
-    })
-
     wx.request({
       method: "GET",
-      url: app.apiUrl + "/api/novel/section/" + sectionId,
+      url: app.apiUrl + "/novel/" + that.data.novelId + "/" + sectionId,
       success: function (res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
@@ -127,7 +120,7 @@ Page({
           that.setData({
             isLoading: false,
             hasContent: true,
-            sectionId: res.data.data.section.sectionId,
+            sectionId: res.data.data.section.id,
             section: res.data.data.section,
             prevSection: res.data.data.prevSection,
             nextSection: res.data.data.nextSection
@@ -143,6 +136,13 @@ Page({
 
           wx.setNavigationBarTitle({
             title: res.data.data.section.title
+          })
+
+          wx.setStorage({
+            key: that.data.novelId,
+            data: {
+              sectionId: sectionId
+            }
           })
         } else {
           that.setData({
@@ -198,7 +198,7 @@ Page({
    * Page event handler function--Called when user drop down
    */
   onPullDownRefresh: function () {
-    this.loadData(this.data.section.sectionId);
+    this.loadData(this.data.section.id);
   },
 
   /**

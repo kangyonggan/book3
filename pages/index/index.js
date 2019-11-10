@@ -10,8 +10,7 @@ Page({
     apiUrl: app.apiUrl,
     isLoading: false,
     emptyText: "加载中...",
-    list: [],
-    debug: false
+    list: []
   },
 
   /**
@@ -58,7 +57,7 @@ Page({
     });
     wx.request({
       method: "GET",
-      url: app.apiUrl + "/api/novel",
+      url: app.apiUrl + "/novel?pageSzie=9999&prop=hold&order=descending",
       success: function (res) {
         // 隐藏导航栏加载框
         wx.hideNavigationBarLoading();
@@ -66,7 +65,7 @@ Page({
         wx.stopPullDownRefresh();
 
         if (res.data.respCo == '0000') {
-          if (res.data.data.novels.length == 0) {
+          if (res.data.data.pageInfo.list.length == 0) {
             that.setData({
               isLoading: false
             });
@@ -77,13 +76,9 @@ Page({
           }
 
           that.setData({
-            list: []
-          });
-
-          that.setData({
             isLoading: false,
             debug: false,
-            list: that.data.list.concat(res.data.data.novels)
+            list: res.data.data.pageInfo.list
           });
         } else {
           that.setData({

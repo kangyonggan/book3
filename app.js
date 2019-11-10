@@ -1,7 +1,7 @@
 //app.js
 App({
   // apiUrl: 'http://localhost:8080',
-  apiUrl: 'https://kangyonggan.com',
+  apiUrl: 'https://kangyonggan.com/api',
   onLaunch: function () {
     
   },

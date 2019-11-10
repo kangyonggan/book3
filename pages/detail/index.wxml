@@ -1,20 +1,20 @@
 <!--pages/detail/index.wxml-->
 <view wx:if="{{hasContent}}" class="content">
 <view class="toolbar">
-  <view bindtap="prevSection" class="prev" wx:if="{{prevSection.code}}">上一章</view>
+  <view bindtap="prevSection" class="prev" wx:if="{{prevSection.id}}">上一章</view>
   <view bindtap="pwd" class="pwd">查看目录</view>
-  <view bindtap="nextSection" class='next' wx:if="{{nextSection.code}}">下一章</view>
-  <view bindtap="refresh" class='next' wx:if="{{!nextSection.code}}">拉取最新</view>
+  <view bindtap="nextSection" class='next' wx:if="{{nextSection.id}}">下一章</view>
+  <view bindtap="refresh" class='next' wx:if="{{!nextSection.id}}">拉取最新</view>
 </view>
 <view class='title'>{{section.title}}</view>
 <import src="../../wxParse/wxParse.wxml"/>
 <template is="wxParse" data="{{wxParseData:content.nodes}}"/>
 <view>
 <view class="toolbar">
-  <view bindtap="prevSection" class="prev" wx:if="{{prevSection.code}}">上一章</view>
+  <view bindtap="prevSection" class="prev" wx:if="{{prevSection.id}}">上一章</view>
   <view bindtap="pwd" class="pwd">查看目录</view>
-  <view bindtap="nextSection" class='next' wx:if="{{nextSection.code}}">下一章</view>
-  <view bindtap="refresh" class='next' wx:if="{{!nextSection.code}}">拉取最新</view>
+  <view bindtap="nextSection" class='next' wx:if="{{nextSection.id}}">下一章</view>
+  <view bindtap="refresh" class='next' wx:if="{{!nextSection.id}}">拉取最新</view>
 </view>
 </view>
 </view>

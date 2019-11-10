@@ -1,7 +1,7 @@
 <!--pages/index/index.wxml-->
 <view>
   <view wx:if="{{list.length > 0}}">
-    <view bindtap="detail" data-id="{{novel.novelId}}" data-name="{{novel.name}}" class="novel" wx:for="{{list}}" wx:for-item="novel" wx:key="index">
+    <view bindtap="detail" data-id="{{novel.id}}" data-name="{{novel.name}}" class="novel" wx:for="{{list}}" wx:for-item="novel" wx:key="index">
       <image class='cover' src='{{novel.cover}}'></image>
       <view class="top">
         <text>{{novel.name}}</text>
