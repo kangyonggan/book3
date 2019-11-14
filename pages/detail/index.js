@@ -134,10 +134,6 @@ Page({
           let content = res.data.data.section.content;
           WxParse.wxParse('content', 'html', content, that, 0);
 
-          wx.setNavigationBarTitle({
-            title: res.data.data.section.title
-          })
-
           wx.setStorage({
             key: that.data.novelId,
             data: {
