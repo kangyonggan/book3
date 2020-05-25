@@ -117,6 +117,19 @@ Page({
         // 停止下拉动作
         wx.stopPullDownRefresh();
         if (res.data.respCo == '0000') {
+          if (!res.data.data.section) {
+            wx.removeStorage({
+              key: that.data.novelId,
+              success(res) {
+                console.log(res)
+              }
+            });
+            wx.navigateTo({
+              url: '../sections/index?novelId=' + that.data.novelId
+            })
+            return;
+          }
+
           that.setData({
             isLoading: false,
             hasContent: true,
